@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:keepScreenOn="true"
+        android:layout_weight="9">
+
+
+        <com.google.android.gms.samples.vision.ocrreader.ui.camera.CameraSourcePreview
+            android:id="@+id/preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.gms.samples.vision.ocrreader.ui.camera.GraphicOverlay
+                android:id="@+id/graphicOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </com.google.android.gms.samples.vision.ocrreader.ui.camera.CameraSourcePreview>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="1"
+        android:weightSum="10"
+        android:orientation="horizontal"
+        android:background="#fff">
+        <ScrollView
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9.5">
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NONE SELECTED"
+                android:textColor="#000"
+                android:textSize="25sp"
+                android:paddingStart="15sp"
+                android:paddingTop="5sp"/>
+        </ScrollView>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_weight="0.5"
+            android:id="@+id/submit"/>
+    </LinearLayout>
+</LinearLayout>

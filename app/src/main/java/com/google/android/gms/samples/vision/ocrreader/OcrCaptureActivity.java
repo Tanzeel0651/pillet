@@ -38,6 +38,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,8 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -75,6 +78,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     // Helper objects for detecting taps and pinches.
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
+    ArrayList<String> list;
+    float x1, x2, y1, y2;
 
     // A TextToSpeech engine for speaking a String value.
     private TextToSpeech tts;
@@ -131,11 +136,15 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!textView.getText().toString().equalsIgnoreCase("none selected")) {
+                    list.add(textView.getText().toString());
                     Intent intent = new Intent(OcrCaptureActivity.this, WebActivity.class);
-                    if (textView.getText() != null) {
-                        intent.putExtra("string", textView.getText().toString());
-                        startActivity(intent);
-                    }
+                    intent.putExtra("string", textView.getText().toString());
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(OcrCaptureActivity.this, "Please Enter a input", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -145,6 +154,11 @@ public final class OcrCaptureActivity extends AppCompatActivity {
      * showing a "Snackbar" message of why the permission is needed then
      * sending the request.
      */
+    public void perform_action(View view){
+        textView = (TextView) findViewById(R.id.textView);
+        Intent intent = new Intent(OcrCaptureActivity.this, popup.class);
+        startActivity(intent);
+    }
     private void requestCameraPermission() {
         Log.w(TAG, "Camera permission is not granted. Requesting permission");
 
@@ -173,19 +187,34 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        boolean b = scaleGestureDetector.onTouchEvent(e);
+    public boolean onTouchEvent(MotionEvent touchEvent) {
+        boolean b = scaleGestureDetector.onTouchEvent(touchEvent);
 
-        boolean c = gestureDetector.onTouchEvent(e);
+        boolean c = gestureDetector.onTouchEvent(touchEvent);
 
-        return b || c || super.onTouchEvent(e);
+        switch (touchEvent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x1 = touchEvent.getX();
+                y1 = touchEvent.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = touchEvent.getX();
+                y2 = touchEvent.getY();
+                if(x1 < x2){
+                    Intent intent = new Intent(OcrCaptureActivity.this, History.class);
+                    intent.putExtra("list", list);
+                    startActivity(intent);
+                }
+                break;
+        }
+         return b || c || super.onTouchEvent(touchEvent);
     }
 
     /**
      * Creates and starts the camera.  Note that this uses a higher resolution in comparison
      * to other detection examples to enable the ocr detector to detect small text samples
      * at long distances.
-     *
+     * <p>
      * Suppressing InlinedApi since there is a check that the minimum version is met before using
      * the constant.
      */
@@ -358,7 +387,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 Log.d(TAG, "text data is null");
             }
         } else {
-            Log.d(TAG,"no text detected");
+            Log.d(TAG, "no text detected");
         }
 
         return text != null;

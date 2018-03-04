@@ -42,12 +42,13 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NONE SELECTED"
+                android:text="Select Text"
                 android:textColor="#000"
                 android:textSize="25sp"
                 android:paddingStart="15sp"
                 android:paddingTop="5sp"
                 android:clickable="true"
+                android:focusable="true"
                 android:onClick="perform_action"/>
         </ScrollView>
         <Button

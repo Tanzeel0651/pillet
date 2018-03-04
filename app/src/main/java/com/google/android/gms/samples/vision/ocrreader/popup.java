@@ -1,16 +1,21 @@
 package com.google.android.gms.samples.vision.ocrreader;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class popup extends AppCompatActivity {
     String text;
+    EditText edt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,15 +26,28 @@ public class popup extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
         getWindow().setLayout((int) (width * .8), (int) (height * .4));
-        EditText edt = (EditText) findViewById(R.id.symtom);
-        text = edt.getText().toString();
+        edt = (EditText) findViewById(R.id.symtom);
+        edt.setHint("Enter Drug Name");
+        edt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edt.setText("");
+            }
+        });
         Button button = (Button) findViewById(R.id.submit);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(popup.this, WebActivity.class);
-                intent.putExtra("string", text);
-                startActivity(intent);
+                text = edt.getText().toString();
+                if(!text.equals("")) {
+                    OcrCaptureActivity.list.add(text);
+                    Intent intent = new Intent(popup.this, medindia.class);
+                    intent.putExtra("string", text);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(popup.this, "Enter Drug Name", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

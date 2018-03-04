@@ -78,12 +78,12 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     // Helper objects for detecting taps and pinches.
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
-    ArrayList<String> list;
+    public static ArrayList<String> list;
     float x1, x2, y1, y2;
 
     // A TextToSpeech engine for speaking a String value.
     private TextToSpeech tts;
-    public static TextView textView;
+    public TextView textView;
     private Button button;
 
     /**
@@ -97,10 +97,17 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay<OcrGraphic>) findViewById(R.id.graphicOverlay);
         textView = (TextView) findViewById(R.id.textView);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OcrCaptureActivity.this, popup.class);
+                startActivity(intent);
+            }
+        });
         // Set good defaults for capturing text.
         boolean autoFocus = true;
         boolean useFlash = false;
-
+        list = new ArrayList<String>(5);
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -154,11 +161,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
      * showing a "Snackbar" message of why the permission is needed then
      * sending the request.
      */
-    public void perform_action(View view){
-        textView = (TextView) findViewById(R.id.textView);
-        Intent intent = new Intent(OcrCaptureActivity.this, popup.class);
-        startActivity(intent);
-    }
+
     private void requestCameraPermission() {
         Log.w(TAG, "Camera permission is not granted. Requesting permission");
 
@@ -200,7 +203,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             case MotionEvent.ACTION_UP:
                 x2 = touchEvent.getX();
                 y2 = touchEvent.getY();
-                if(x1 < x2){
+                if(x1 > x2){
                     Intent intent = new Intent(OcrCaptureActivity.this, History.class);
                     intent.putExtra("list", list);
                     startActivity(intent);

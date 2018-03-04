@@ -11,12 +11,13 @@
         android:id="@+id/symtom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter Symtom here"
         android:textColor="#000"
         android:layout_centerInParent="true"
+        android:textColorHint="#979696"
         android:paddingStart="10sp"
         android:paddingEnd="10sp"/>
     <Button
+        android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"

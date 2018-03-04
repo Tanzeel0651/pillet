@@ -9,47 +9,47 @@ import android.webkit.WebView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
-import java.io.IOException;
+import org.jsoup.select.Elements;
 
-public class WebActivity extends AppCompatActivity {
+import java.io.IOException;
+import java.net.URL;
+
+public class medindia extends AppCompatActivity {
     public static final String GOOGLE_SEARCH_URL = "https://www.google.com/search";
-    private Document doc;
-    public String query = "";
-    public String URL = "";
-    public String result = "";
-    public WebView webView;
+    public String query1;
+    public String result1;
+    public Document doc1;
+    public String URL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web);
+        setContentView(R.layout.activity_medindia);
 
-        webView = (WebView) findViewById(R.id.webView);
+        WebView webView = (WebView) findViewById(R.id.medindia);
         Intent intent = getIntent();
-        query = intent.getExtras().getString("string");
-        Log.d("String",query);
+        query1 = intent.getExtras().getString("string");
+        Log.d("String", query1);
         try {
-            result = new background().execute(query, null, null).get();
+            result1 = new background().execute(query1, null, null).get();
         }catch (Exception e){
             Log.d("Error", "Error from WebActivity");
         }
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(result);
-
+        webView.loadUrl(result1);
     }
 
-    public class background extends AsyncTask<String, String, String> {
+    public class background extends AsyncTask<String, String, String>{
 
         @Override
-        protected String doInBackground(String... voids) {
-            String searchURL = GOOGLE_SEARCH_URL + "?q=" + query + "practo" + "&num=" + 1;
+        protected String doInBackground(String... strings) {
+            String searchURL1 = GOOGLE_SEARCH_URL + "?q=" + query1 + "medindia.net" + "&num=" + 1;
             try {
-                doc = Jsoup.connect(searchURL).get();
+                doc1 = Jsoup.connect(searchURL1).get();
             } catch (IOException e) {
                 Log.d("Error 1", "");
             }
-            Elements results = doc.select("h3.r > a");
+            Elements results = doc1.select("h3.r > a");
             //Element results = doc.getElementById("cite");
             for (Element result : results) {
                 String linkHref = result.attr("href");

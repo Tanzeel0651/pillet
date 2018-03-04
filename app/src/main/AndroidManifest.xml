@@ -7,13 +7,15 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
 
     <application
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="OCR Reader"
+        android:label="Pillet"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
         <meta-data
@@ -25,7 +27,7 @@
 
         <activity
             android:name=".OcrCaptureActivity"
-            android:label="OCR Reader">
+            android:label="Pillet">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,7 +36,9 @@
         </activity>
         <activity android:name=".WebActivity" />
         <activity android:name=".History" />
-        <activity android:name=".popup"></activity>
+        <activity android:name=".popup"
+            android:theme="@style/CustomTheme"/>
+        <activity android:name=".medindia"/>
     </application>
 
 </manifest>
